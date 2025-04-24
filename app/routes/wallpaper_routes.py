@@ -5,6 +5,7 @@ from app.services.cloudinary_service import (
   get_image_metadata,
   add_image_tag
 )
+from app.utils.tag_utils import normalize_tag
 
 bp = Blueprint("wallpaper", __name__)
 
@@ -38,5 +39,24 @@ def add_tag_route():
   try:
     result = add_image_tag(tag, public_id)
     return jsonify({"message": f"Tag '{tag}' added.", "result": result})
+  except Exception as e:
+    return jsonify({"error": str(e)}), 500
+  
+@bp.route('/<tag>', methods=['GET'])
+def wallpapers_by_tag(tag):
+  try: 
+    normalized_tag = normalize_tag(tag)
+    result = get_images_by_tag(normalized_tag)
+
+    images = []
+
+    for img in result["resources"]:
+      metadata = get_image_metadata(img["public_id"])
+      images.append({
+        "url": metadata["secure_url"],
+        "tags": metadata.get("tags", [])
+      })
+    return jsonify({"wallpapers": images})
+
   except Exception as e:
     return jsonify({"error": str(e)}), 500
