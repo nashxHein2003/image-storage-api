@@ -1,7 +1,7 @@
 
 
 <p>
-  all images -> https://image-storage-api.onrender.com/wallpapers
+  all images -> [https://image-storage-api.onrender.com/wallpapers](https://image-storage-api.onrender.com/wallpapers)
 </p><br>
 <p>
   images by tag -> https://image-storage-api.onrender.com/<tag>
