@@ -20,6 +20,7 @@ def get_wallpapers():
       metadata = get_image_metadata(img["public_id"])
       images.append({
         "url": metadata["secure_url"],
+        "public_id": metadata["public_id"],
         "tags": metadata.get("tags", [])
       })
     return jsonify({"wallpapers": images})
@@ -60,3 +61,19 @@ def wallpapers_by_tag(tag):
 
   except Exception as e:
     return jsonify({"error": str(e)}), 500
+  
+@bp.route('/w/<path:public_id>', methods=['GET'])
+def get_wallpaper_by_id(public_id):
+    try:
+        result = get_image_metadata(public_id)
+        print(result)
+        return jsonify({
+            "url": result["secure_url"],
+            "tags": result.get("tags", []),
+            "format": result.get("format"),
+            "width": result.get("width"),
+            "height": result.get("height"),
+            "created_at": result.get("created_at")
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)}), 404
