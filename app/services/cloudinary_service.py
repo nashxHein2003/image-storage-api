@@ -6,10 +6,10 @@ def upload_image(file, tags):
   return upload(file, tags = tag_list, folder = "wallpapers")
 
 def get_images_by_tag(tag):
-  return resources_by_tag(tag)
+  return resources_by_tag(tag, max_results=100)
 
 def get_all_images():
-  return resources(type="upload", prefix="wallpapers/")
+  return resources(type="upload", prefix="wallpapers/", max_results=100)
 
 def get_image_metadata(public_id):
   return resource(public_id)
